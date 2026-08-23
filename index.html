@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Frühwarnsystem</title>
+<style>
+:root{
+  --bg:#faf9f7; --panel:#ffffff; --line:#e6e2dc; --text:#1c1a17; --muted:#6f6a63;
+  --ok:#2f7d55; --watch:#4a6fa5; --warn:#b06a12; --alarm:#b3341f;
+  --okbg:#eaf4ee; --watchbg:#eaf0f8; --warnbg:#fbf1e2; --alarmbg:#fbeae7;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#161513; --panel:#201f1c; --line:#33312c; --text:#f0ede8; --muted:#9d968c;
+    --ok:#6fc292; --watch:#8fb0e0; --warn:#e6a94e; --alarm:#e8735c;
+    --okbg:#1d2f26; --watchbg:#1e2733; --warnbg:#332918; --alarmbg:#33201d;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font:16px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1100px;margin:0 auto;padding:48px 24px 72px}
+header.top{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;margin-bottom:8px}
+h1{font-size:1.5rem;font-weight:660;letter-spacing:-.02em;margin:0}
+.stand{color:var(--muted);font-size:.86rem;font-variant-numeric:tabular-nums}
+.lage{margin:20px 0 36px;padding:20px 22px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;box-shadow:var(--shadow);max-width:76ch}
+.lage.alarm{border-left:4px solid var(--alarm)}
+.lage.warn{border-left:4px solid var(--warn)}
+.lage.ok{border-left:4px solid var(--ok)}
+.lage p{margin:0;color:var(--text)}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+  padding:22px 22px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.card h2{font-size:1.06rem;font-weight:640;margin:.35rem 0 .15rem;letter-spacing:-.01em}
+.sub{margin:0;color:var(--muted);font-size:.87rem}
+.badge{display:inline-block;font-size:.72rem;font-weight:640;letter-spacing:.03em;
+  text-transform:uppercase;padding:3px 9px;border-radius:999px}
+.card.ok .badge{background:var(--okbg);color:var(--ok)}
+.card.watch .badge{background:var(--watchbg);color:var(--watch)}
+.card.warn .badge{background:var(--warnbg);color:var(--warn)}
+.card.alarm .badge{background:var(--alarmbg);color:var(--alarm)}
+.value{font-size:2.1rem;font-weight:680;letter-spacing:-.03em;margin:16px 0 2px;
+  font-variant-numeric:tabular-nums}
+.card.warn .value{color:var(--warn)}
+.card.alarm .value{color:var(--alarm)}
+.gap{color:var(--muted);font-size:.88rem}
+.scale{margin:20px 0 4px}
+.track{position:relative;height:6px;background:var(--line);border-radius:99px}
+.dot{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;
+  background:var(--text);transform:translate(-50%,-50%);border:2px solid var(--panel)}
+.card.warn .dot{background:var(--warn)}
+.card.alarm .dot{background:var(--alarm)}
+.mark{position:absolute;top:-5px;width:2px;height:16px;background:var(--alarm);
+  transform:translateX(-50%);border-radius:2px}
+.marklabel{position:absolute;top:16px;transform:translateX(-50%);font-size:.7rem;
+  color:var(--alarm);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ends{display:flex;justify-content:space-between;margin-top:22px;font-size:.72rem;
+  color:var(--muted);font-variant-numeric:tabular-nums}
+.ctx{font-size:.9rem;color:var(--muted);margin:16px 0 0;flex:1}
+.card footer{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:18px;padding-top:14px;
+  border-top:1px solid var(--line);font-size:.76rem;color:var(--muted)}
+.card footer a{color:var(--watch);text-decoration:none}
+.card footer a:hover{text-decoration:underline}
+h3{font-size:1.05rem;font-weight:640;margin:44px 0 14px;letter-spacing:-.01em}
+.tablewrap{overflow-x:auto;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:.9rem}
+th,td{text-align:left;padding:11px 18px;border-bottom:1px solid var(--line)}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);
+  font-weight:620}
+tr:last-child td{border-bottom:none}
+td.d,td.v{font-variant-numeric:tabular-nums;white-space:nowrap}
+td.v{text-align:right;color:var(--muted)}
+.foot{margin-top:40px;font-size:.78rem;color:var(--muted);max-width:70ch}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Frühwarnsystem</h1>
+    <span class="stand">Stand 23.08.2026, 10:20 · 3 von 4 auffällig</span>
+  </header>
+
+  <div class="lage alarm"><p>Zwei der vier Sensoren stehen dicht unter ihrer Schwelle, einer ist bereits ausgelöst. Die US-Zehnjährige liegt 26 Basispunkte unter der 5-Prozent-Marke und damit auf einem 20-Monats-Hoch; Brent hat im August rund 7 Dollar zugelegt und ist noch 6 Dollar von der 100er-Marke entfernt. Der Fed-Sensor ist bereits durch: QT endete im Dezember 2025, die Bilanz wächst seit Monaten wieder.</p></div>
+
+  <div class="grid">
+      <article class="card warn">
+        <header>
+          <span class="badge">nah an der Schwelle</span>
+          <h2>US-10-Jahres-Rendite</h2>
+          <p class="sub">Die Marke, an der 2023 der Aktienmarkt kippte</p>
+        </header>
+        <div class="value">4,74 %</div>
+        <div class="gap">26 Basispunkte unter der Marke</div>
+        <div class="scale"><div class="track"><span class="mark" style="left:75.0%"></span><span class="marklabel" style="left:75.0%">5,00 %</span><span class="dot" style="left:62.0%"></span></div><div class="ends"><span>3.5</span><span>5.5</span></div></div>
+        <p class="ctx">20-Monats-Hoch, getestet über mehrere Tage. Die 30-Jährige steht bei 5,25 %. Auslöser ist die Diskussion um Eingriffe des Treasury in den Markt.</p>
+        <footer>
+          <span>Stand 21.08.2026</span>
+          <span>täglich (Handelstage)</span>
+          <a href="https://fred.stlouisfed.org/series/DGS10" rel="noopener">FRED DGS10</a>
+        </footer>
+      </article>
+      <article class="card warn">
+        <header>
+          <span class="badge">nah an der Schwelle</span>
+          <h2>Brent</h2>
+          <p class="sub">Ab 100 USD greift die Inflationskette voll</p>
+        </header>
+        <div class="value">94,39 USD</div>
+        <div class="gap">5,6 Dollar unter der Marke</div>
+        <div class="scale"><div class="track"><span class="mark" style="left:80.0%"></span><span class="marklabel" style="left:80.0%">100 USD</span><span class="dot" style="left:68.8%"></span></div><div class="ends"><span>60</span><span>110</span></div></div>
+        <p class="ctx">Monatsschnitt August 91,14 USD gegen 83,76 USD im Juli — rund 9 Prozent in vier Wochen. Der Anstieg ist die eigentliche Nachricht, nicht der Tagesstand.</p>
+        <footer>
+          <span>Stand 21.08.2026</span>
+          <span>täglich (nahezu durchgehend)</span>
+          <a href="https://tradingeconomics.com/commodity/brent-crude-oil" rel="noopener">Trading Economics</a>
+        </footer>
+      </article>
+      <article class="card alarm">
+        <header>
+          <span class="badge">ausgelöst</span>
+          <h2>Fed-Bilanz</h2>
+          <p class="sub">QT beendet oder wieder Käufe — dann ist der Stress im System</p>
+        </header>
+        <div class="value">6,70 Bio USD</div>
+        <div class="gap">seit Dezember 2025 durch</div>
+        
+        <p class="ctx">QT wurde im Dezember 2025 beendet — nur die Hälfte des Pandemie-Aufbaus war zurückgedreht. Die Bilanz wächst wieder: plus 10 Mrd zur Vorwoche, plus 108 Mrd gegenüber Vorjahr. Dieser Sensor braucht eine neue Schwelle, weil die alte Formulierung überholt ist.</p>
+        <footer>
+          <span>Stand Woche zum 19.08.2026</span>
+          <span>wöchentlich, donnerstags (H.4.1)</span>
+          <a href="https://www.federalreserve.gov/releases/h41/" rel="noopener">Fed H.4.1</a>
+        </footer>
+      </article>
+      <article class="card watch">
+        <header>
+          <span class="badge">Beobachtung</span>
+          <h2>DE/FR-Auktionen</h2>
+          <p class="sub">Saisonalität oder Struktur</p>
+        </header>
+        <div class="value">9 Termine</div>
+        <div class="gap">erster Termin 1. September</div>
+        
+        <p class="ctx">Der September-Kalender der Finanzagentur steht. Interessant ist nicht der Termin, sondern die Deckungsquote (bid-to-cover) und ob Emissionen gekürzt werden. Beides ist erst am Auktionstag ab 11:30 sichtbar.</p>
+        <footer>
+          <span>Stand Kalender Q3, Stand 25.06.2026</span>
+          <span>wenige Termine je Quartal</span>
+          <a href="https://www.deutsche-finanzagentur.de/en/federal-securities/issuances/issuance-calendar" rel="noopener">Deutsche Finanzagentur</a>
+        </footer>
+      </article>
+  </div>
+
+  <h3>Auktionstermine September</h3>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Datum</th><th>Instrument</th><th>Volumen</th></tr></thead>
+      <tbody>
+            <tr><td class="d">01.09.2026</td><td>Bobl 2,90 % 10/2031 (Aufstockung)</td><td class="v">5,5 Mrd €</td></tr>
+            <tr><td class="d">09.09.2026</td><td>Bund 3,00 % 08/2036 (Aufstockung)</td><td class="v">5,5 Mrd €</td></tr>
+            <tr><td class="d">15.09.2026</td><td>Schatz 2,70 % 09/2028 (Aufstockung)</td><td class="v">5,0 Mrd €</td></tr>
+            <tr><td class="d">16.09.2026</td><td>Bund 30J + Bund 2,90 % 08/2056</td><td class="v">1,0 + 1,5 Mrd €</td></tr>
+            <tr><td class="d">22.09.2026</td><td>Bobl 2,90 % 10/2031 (Aufstockung)</td><td class="v">5,0 Mrd €</td></tr>
+            <tr><td class="d">23.09.2026</td><td>Bund 15J + Bund 3,40 % 05/2047</td><td class="v">1,0 + 1,0 Mrd €</td></tr>
+            <tr><td class="d">30.09.2026</td><td>Bund 3,00 % 08/2036 (Aufstockung)</td><td class="v">5,5 Mrd €</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="foot">Wird täglich um 5:00 automatisch neu gebaut. Die Frequenzangabe je Karte
+  sagt, wie oft sich der Wert überhaupt ändern kann — die Fed-Bilanz erscheint donnerstags,
+  Auktionsergebnisse nur am Auktionstag. Keine Anlageberatung.</p>
+</div>
+</body>
+</html>

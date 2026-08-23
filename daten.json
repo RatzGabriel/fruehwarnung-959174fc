@@ -1,0 +1,83 @@
+{
+  "stand_anzeige": "23.08.2026, 10:20",
+  "lage": "Zwei der vier Sensoren stehen dicht unter ihrer Schwelle, einer ist bereits ausgelöst. Die US-Zehnjährige liegt 26 Basispunkte unter der 5-Prozent-Marke und damit auf einem 20-Monats-Hoch; Brent hat im August rund 7 Dollar zugelegt und ist noch 6 Dollar von der 100er-Marke entfernt. Der Fed-Sensor ist bereits durch: QT endete im Dezember 2025, die Bilanz wächst seit Monaten wieder.",
+  "sensoren": [
+    {
+      "id": "us10y",
+      "name": "US-10-Jahres-Rendite",
+      "kurz": "Die Marke, an der 2023 der Aktienmarkt kippte",
+      "wert": 4.74,
+      "anzeige": "4,74 %",
+      "schwelle": 5.0,
+      "schwelle_anzeige": "5,00 %",
+      "skala": [3.5, 5.5],
+      "status": "warnung",
+      "abstand": "26 Basispunkte unter der Marke",
+      "stand_wert": "21.08.2026",
+      "frequenz": "täglich (Handelstage)",
+      "kontext": "20-Monats-Hoch, getestet über mehrere Tage. Die 30-Jährige steht bei 5,25 %. Auslöser ist die Diskussion um Eingriffe des Treasury in den Markt.",
+      "quelle_name": "FRED DGS10",
+      "quelle": "https://fred.stlouisfed.org/series/DGS10"
+    },
+    {
+      "id": "brent",
+      "name": "Brent",
+      "kurz": "Ab 100 USD greift die Inflationskette voll",
+      "wert": 94.39,
+      "anzeige": "94,39 USD",
+      "schwelle": 100.0,
+      "schwelle_anzeige": "100 USD",
+      "skala": [60, 110],
+      "status": "warnung",
+      "abstand": "5,6 Dollar unter der Marke",
+      "stand_wert": "21.08.2026",
+      "frequenz": "täglich (nahezu durchgehend)",
+      "kontext": "Monatsschnitt August 91,14 USD gegen 83,76 USD im Juli — rund 9 Prozent in vier Wochen. Der Anstieg ist die eigentliche Nachricht, nicht der Tagesstand.",
+      "quelle_name": "Trading Economics",
+      "quelle": "https://tradingeconomics.com/commodity/brent-crude-oil"
+    },
+    {
+      "id": "fed",
+      "name": "Fed-Bilanz",
+      "kurz": "QT beendet oder wieder Käufe — dann ist der Stress im System",
+      "wert": 6700,
+      "anzeige": "6,70 Bio USD",
+      "schwelle": null,
+      "schwelle_anzeige": "QT-Ende",
+      "skala": null,
+      "status": "ausgeloest",
+      "abstand": "seit Dezember 2025 durch",
+      "stand_wert": "Woche zum 19.08.2026",
+      "frequenz": "wöchentlich, donnerstags (H.4.1)",
+      "kontext": "QT wurde im Dezember 2025 beendet — nur die Hälfte des Pandemie-Aufbaus war zurückgedreht. Die Bilanz wächst wieder: plus 10 Mrd zur Vorwoche, plus 108 Mrd gegenüber Vorjahr. Dieser Sensor braucht eine neue Schwelle, weil die alte Formulierung überholt ist.",
+      "quelle_name": "Fed H.4.1",
+      "quelle": "https://www.federalreserve.gov/releases/h41/"
+    },
+    {
+      "id": "auktionen",
+      "name": "DE/FR-Auktionen",
+      "kurz": "Saisonalität oder Struktur",
+      "wert": null,
+      "anzeige": "9 Termine",
+      "schwelle": null,
+      "schwelle_anzeige": "September",
+      "skala": null,
+      "status": "beobachtung",
+      "abstand": "erster Termin 1. September",
+      "stand_wert": "Kalender Q3, Stand 25.06.2026",
+      "frequenz": "wenige Termine je Quartal",
+      "kontext": "Der September-Kalender der Finanzagentur steht. Interessant ist nicht der Termin, sondern die Deckungsquote (bid-to-cover) und ob Emissionen gekürzt werden. Beides ist erst am Auktionstag ab 11:30 sichtbar.",
+      "quelle_name": "Deutsche Finanzagentur",
+      "quelle": "https://www.deutsche-finanzagentur.de/en/federal-securities/issuances/issuance-calendar"
+    }
+  ],
+  "termine": [
+    {"datum": "01.09.2026", "titel": "Bobl 2,90 % 10/2031 (Aufstockung)", "volumen": "5,5 Mrd €"},
+    {"datum": "09.09.2026", "titel": "Bund 3,00 % 08/2036 (Aufstockung)", "volumen": "5,5 Mrd €"},
+    {"datum": "15.09.2026", "titel": "Schatz 2,70 % 09/2028 (Aufstockung)", "volumen": "5,0 Mrd €"},
+    {"datum": "16.09.2026", "titel": "Bund 30J + Bund 2,90 % 08/2056", "volumen": "1,0 + 1,5 Mrd €"},
+    {"datum": "22.09.2026", "titel": "Bobl 2,90 % 10/2031 (Aufstockung)", "volumen": "5,0 Mrd €"},
+    {"datum": "23.09.2026", "titel": "Bund 15J + Bund 3,40 % 05/2047", "volumen": "1,0 + 1,0 Mrd €"},
+    {"datum": "30.09.2026", "titel": "Bund 3,00 % 08/2036 (Aufstockung)", "volumen": "5,5 Mrd €"}
+  ]
+}
