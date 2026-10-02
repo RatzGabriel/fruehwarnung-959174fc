@@ -195,7 +195,7 @@ td.v{{text-align:right;color:var(--muted)}}
 {karten}
   </div>
 
-  <h3>Auktionstermine September</h3>
+  <h3>Kommende Auktionstermine</h3>
   <div class="tablewrap">
     <table>
       <thead><tr><th>Datum</th><th>Instrument</th><th>Volumen</th></tr></thead>
